@@ -4,3 +4,4 @@ pandas
 numpy 
 math 
 rapidfuzz
+matplotlib.pyplot
