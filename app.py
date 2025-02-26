@@ -4,17 +4,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 from math import pi
 from rapidfuzz import process
+import requests
+import io 
 
-# Load Data
-df = pd.read_csv("nba_clustered_named.csv")
+
+# Load Data from Google Drive
+url = "https://drive.google.com/uc?id=1cfxqTo-BGmgsfbPq46c1fccVatrpbmki"
+response = requests.get(url, verify=False)  # Bypassing SSL verification
+df = pd.read_csv(io.StringIO(response.text))
 
 # Define Position-Based Metrics
 position_metrics = {
-    "PG": ["AST", "FG%", "3P%", "PPS", "STL+BLK"],
-    "SG": ["AST", "FG%", "3P%", "PPS", "STL+BLK", "FGA"],
-    "SF": ["AST", "FG%", "3P%", "PPS", "STL+BLK", "TRB"],
-    "PF": ["AST", "FG%", "2P%", "TRB", "STL+BLK", "PPS"],
-    "C": ["AST", "FG%", "2P%", "TRB", "STL+BLK", "ORB_Rate"]
+    "PG": ["AST", "FG%", "3P%", "PPS", "STL+BLK", "TOV", "FT%"],
+    "SG": ["AST", "FG%", "3P%", "PPS", "STL+BLK", "FGA", "TS%", "FT%"],
+    "SF": ["AST", "FG%", "3P%", "PPS", "STL+BLK", "TRB", "TS%", "FT%"],
+    "PF": ["AST", "FG%", "2P%", "TRB", "STL+BLK", "PPS", "BLK", "REB%"],
+    "C": ["AST", "FG%", "2P%", "TRB", "STL+BLK", "ORB_Rate", "BLK", "REB%"]
 }
 
 # Function to Determine Position
